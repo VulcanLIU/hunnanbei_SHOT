@@ -4,8 +4,8 @@
  Servo servol1;
  int button=2 ;
  int kai;
- void setup()
-
+ void setup()//
+//dddddd
 { Serial.begin(9600);
    pinMode(6,OUTPUT); // Enable: EN可以使用单片机端口控制，也可以直接连接GND使能
 
