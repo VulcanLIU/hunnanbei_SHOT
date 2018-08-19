@@ -1,43 +1,60 @@
+/*Begining of Auto generated code by Atmel studio */
+#include <Arduino.h>
+
+/*End of auto generated code by Atmel studio */
+
 #include<Servo.h>
 #include<Wire.h>
-Servo myservo;
-Servo servol1;
-int button = 2 ;
+//Beginning of Auto generated function prototypes by Atmel Studio
+//End of Auto generated function prototypes by Atmel Studio
+
+
+
+Servo ESC1;//两个电调
+Servo ESC2;
+
+const int Zero_pos = A3 ;//零位
+
+//步进电机
+const int steps_pin = 5;
+const int dir_pin = 4;
+const int en_pin = 6;
+
 int kai;
+
 void setup()
 {
   Serial.begin(9600);
-  pinMode(6, OUTPUT); // Enable: EN可以使用单片机端口控制，也可以直接连接GND使能
-  pinMode(5, OUTPUT); // steps:脉冲个数
-  pinMode(4, OUTPUT); // dir:为方向控制
-  pinMode(2, INPUT);
-  digitalWrite(2, HIGH);
-  kai = digitalRead(2);
-  /*while(1){
-
+  Serial.println("77777777");
+  /*步进电机上电初始化*/
+  //引脚配置
+  pinMode(en_pin, OUTPUT); // Enable: EN可以使用单片机端口控制，也可以直接连接GND使能
+  pinMode(steps_pin, OUTPUT); // steps:脉冲个数
+  pinMode(dir_pin, OUTPUT); // dir:为方向控制
+  
+  //上电寻找限位
+  pinMode(Zero_pos, INPUT);
+  
+  while(1){
     digitalWrite(4,HIGH);
-     digitalWrite(5,HIGH);
-     delayMicroseconds(800);
+    digitalWrite(5,HIGH);
+    delayMicroseconds(800);
     digitalWrite(5,LOW); // Output low
-
-     delayMicroseconds(800);
-
-      kai=digitalRead(2);
-
-     if(kai==1)
-
-        break;
-     }
-      digitalWrite(4,HIGH);
-     digitalWrite(5,LOW);*/
-  myservo.attach(10);
-  servol1.attach(9);
-  myservo.writeMicroseconds(2000);
-  servol1.writeMicroseconds(2000);
+    delayMicroseconds(800);
+    int Zero_pos_val = analogRead(Zero_pos);
+    Serial.println(Zero_pos_val);
+  }
+  
+  digitalWrite(4,HIGH);
+  digitalWrite(5,LOW);
+  ESC1.attach(10);
+  ESC2.attach(9);
+  ESC1.writeMicroseconds(2000);
+  ESC2.writeMicroseconds(2000);
 
   delay(3500);
-  myservo.writeMicroseconds(1000);
-  servol1.writeMicroseconds(1000);
+  ESC1.writeMicroseconds(1000);
+  ESC2.writeMicroseconds(1000);
   delay(2000);
   pinMode(A4, INPUT); //SDA数据线
   pinMode(A5, INPUT); //SCL时钟线
@@ -53,8 +70,8 @@ void loop() {
   float pos = 0;
   
   delay(5500);
-  myservo.writeMicroseconds(1000);
-  servol1.writeMicroseconds(1000);
+  ESC1.writeMicroseconds(1000);
+  ESC2.writeMicroseconds(1000);
   while (1)
   {
     new_pos = random(-180, 180);
@@ -69,7 +86,7 @@ void loop() {
     if (val2 < 0)
     {
       val = -val2;
-    } else {
+      } else {
       val = val2;
     }//
 
@@ -111,19 +128,17 @@ void loop() {
 
     }
 
-    myservo.writeMicroseconds(1100);
-    servol1.writeMicroseconds(1100);
+    ESC1.writeMicroseconds(1100);
+    ESC2.writeMicroseconds(1100);
     delay(2000);
 
-    myservo.writeMicroseconds(1000);
-    servol1.writeMicroseconds(1000);
+    ESC1.writeMicroseconds(1000);
+    ESC2.writeMicroseconds(1000);
 
     //digitalWrite(4,HIGH);
     //digitalWrite(5,LOW);
     delay(2000);
   }
 }
-
-
 
 
